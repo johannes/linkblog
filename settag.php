@@ -20,7 +20,7 @@ if ($entries->length == 0) {
 $entry = $entries->item(0);
 
 foreach (explode(',', $_GET['tags']) as $tag) {
-    $tag = strtolower($tag);
+    $tag = strtolower(trim($tag));
 
     $cat = $dom->createElement('category');
     $cat->appendChild($dom->createTextnode($tag));
