@@ -1,7 +1,7 @@
 <?php
 require('auth.php');
 
-if (!isset($_GET['url']) || !isset($_GET['tag']) || !is_array($_GET['tag'])) {
+if (!isset($_GET['url']) || !isset($_GET['tags'])) {
     die("Param missing");
 }
 
@@ -19,7 +19,7 @@ if ($entries->length == 0) {
 
 $entry = $entries->item(0);
 
-foreach ($_GET['tag'] as $tag) {
+foreach (explode(',', $_GET['tags']) as $tag) {
     $tag = strtolower($tag);
 
     $cat = $dom->createElement('category');

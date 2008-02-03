@@ -1,3 +1,13 @@
+/*
+For using this add a bookmark similar to:
+
+javascript:(function(){jl_url='http://schlueters.de/links/';jl_token='TOKEN';var d=document;if(!d.getElementById("jl_overlay")){var s=d.createElement('script');s.src=jl_url+"bookmarklet.js";s.id="jl_overlay";d.body.appendChild(s);}})();
+
+You should at least change jl_url and jl_token there, set jl_token to a 
+ulr-encoded name=value pair which you check in auth.php
+
+*/
+
 var jl_overlay;
 
 function jl_submit_url(url) {
