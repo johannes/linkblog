@@ -11,9 +11,7 @@ ulr-encoded name=value pair which you check in auth.php
 var jl_overlay;
 
 function jl_submit_url(url) {
-    xmlHttp = new XMLHttpRequest();
-    xmlHttp.open('GET', jl_url+'addlink.php?url='+escape(url)+'&'+jl_token, true);
-    xmlHttp.send(null);
+    window.jl_iframe.location.href = jl_url+'addlink.php?url='+escape(url)+'&'+jl_token;
 }
 
 function jl_submit_current() {
@@ -29,20 +27,25 @@ function jl_createOverlay() {
         +'<form action="" name="jl_tag_frm" onsubmit="return jl_submittags()">'
         +'<input type="text" name="tags"> <input type="submit">'
         +'</form>'
+        +'<iframe style="display:none;" name="jl_iframe"></iframe>'
         ;
 
     d.getElementsByTagName('body').item(0).appendChild(jl_overlay);
 }
 
 function jl_submittags() {
-    xmlHttp = new XMLHttpRequest();
-    xmlHttp.open('GET', jl_url+'settag.php?url='+escape(window.location.href)+'&tas='+escape(document.jl_tag_frm.tags.value)+'&'+jl_token, true);
-    xmlHttp.send(null);
+    window.jl_iframe.location.href = jl_url
+                                   + 'settag.php?url='
+                                   + escape(window.location.href)
+                                   + '&tags='
+                                   + escape(document.jl_tag_frm.tags.value)
+                                   + '&'
+                                   + jl_token;
 
-    jl_overlay.parent.removeChild(jl_overlay);
+    jl_overlay.style.display = "none";
 
     return false;
 }
 
-jl_submit_current();
 jl_createOverlay();
+jl_submit_current();
