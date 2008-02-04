@@ -17,6 +17,8 @@ foreach ($feed->getElementsByTagname('entry') as $entry) {
 $update = $template->getElementById('last_update');
 $update->appendChild($template->createTextNode(date('Y-m-d H:i:s')));
 
+$update->appendChild($template->createComment('Last commit: '.trim(`/home/johannes/bin/git-show | head -n1 | awk '{ print $2 }'`)));
+
 $template->save('index.html');
 header('Location: ./');
 ?>
