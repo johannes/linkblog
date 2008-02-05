@@ -16,6 +16,14 @@ $filename = 'feed.xml';
 
 $dom = DOMDocument::load($filename);
 
+$xpath = new DOMXPath($dom);
+$xpath->registerNamespace('foo', 'http://www.w3.org/2005/Atom');
+$entries = $xpath->query('//foo:entry/foo:id[. = "'.$url.'"]/..');
+if ($entries->length != 0) {
+    die("URL already added.");
+}
+
+
 $dom->getElementsByTagname('updated')->item(0)->nodeValue = date(DateTime::RFC3339);
 
 $first_entry = $dom->getElementsByTagname('entry')->item(0);
@@ -175,6 +183,7 @@ class AtomEntryNode
             if ($q->length) {
                $p = $this->dom->createElement('p');
                $p->appendChild($this->dom->importNode($q->item(0)->firstChild, true));
+               $this->appendContent($p);
                break;
             }
 
