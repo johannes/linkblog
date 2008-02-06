@@ -31,16 +31,20 @@ JohannesLinks.prototype.submitCurrent = function() {
 JohannesLinks.prototype.createOverlay = function() {
     var d = document;
     this.Overlay = d.createElement('div');
-    this.Overlay.setAttribute('style', 'position:absolute; top 10px; left: 10px; background-color: #fff;border: 2px solid black;');
+    this.Overlay.setAttribute('style', 'position:fixed; top 10px; left: 10px; background-color: #fff; padding: 5px; border: 2px solid black; z-index:200;');
 
     this.Overlay.innerHTML = ''
+        +'Add Tags to the entry for this page: (comma separated list)<br/>'
         +'<form action="" name="jl_tag_frm" onsubmit="return jl.submitTags()">'
-        +'<input type="text" name="tags"> <input type="submit">'
+        +'<input type="text" name="tags"> <input type="submit" value="Add Tags">'
         +'</form>'
+        +'<a href="'+this.URL+'">Linklist</a> | <a href="#" onclick="return jl.close() && false;">Close</a>'
         +'<iframe style="display:none;" name="jl_iframe"></iframe>'
         ;
 
-    d.getElementsByTagName('body').item(0).appendChild(this.Overlay);
+    var body = d.getElementsByTagName('body').item(0);
+    body.insertBefore(this.Overlay, body.firstChild);
+    document.jl_tag_frm.tags.focus();
 }
 
 JohannesLinks.prototype.submitTags = function() {
@@ -52,9 +56,13 @@ JohannesLinks.prototype.submitTags = function() {
                                    + '&'
                                    + this.Token;
 
-    this.Overlay.style.display = "none";
+    this.close();
 
     return false;
+}
+
+JohannesLinks.prototype.close = function() {
+    this.Overlay.style.display = "none";
 }
 
 jl = new JohannesLinks(jl_url, jl_token); 
