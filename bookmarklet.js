@@ -20,8 +20,12 @@ JohannesLinks.prototype.URL     = "";
 JohannesLinks.prototype.Token   = "";
 JohannesLinks.prototype.Overlay = null;
 
+JohannesLinks.prototype.doRequest = function(url) {
+     document.getElementById('jl_bg_load_img').setAttribute('src', this.URL + url);
+}
+
 JohannesLinks.prototype.submitURL = function(url) {
-    window.jl_iframe.location.href = this.URL+'addlink.php?url='+escape(url)+'&'+this.Token;
+    this.doRequest('addlink.php?url='+escape(url)+'&'+this.Token);
 }
 
 JohannesLinks.prototype.submitCurrent = function() {
@@ -39,7 +43,7 @@ JohannesLinks.prototype.createOverlay = function() {
         +'<input type="text" name="tags" /> <input type="submit" value="Add Tags" />'
         +'</form>'
         +'<a href="'+this.URL+'">Linklist</a> | <a href="#" onclick="jl.close(); return false;">Close</a>'
-        +'<iframe style="display:none;" name="jl_iframe"></iframe>'
+        +'<img style="display:none;" id="jl_bg_load_img"></iframe>'
         ;
 
     var body = d.getElementsByTagName('body').item(0);
@@ -48,13 +52,13 @@ JohannesLinks.prototype.createOverlay = function() {
 }
 
 JohannesLinks.prototype.submitTags = function() {
-    window.jl_iframe.location.href = this.URL
-                                   + 'settag.php?url='
-                                   + escape(window.location.href)
-                                   + '&tags='
-                                   + escape(document.jl_tag_frm.tags.value)
-                                   + '&'
-                                   + this.Token;
+    this.doRequest(
+      'settag.php?url='
+     + escape(window.location.href)
+     + '&tags='
+     + escape(document.jl_tag_frm.tags.value)
+     + '&'
+     + this.Token);
 
     this.close();
 
