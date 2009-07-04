@@ -34,6 +34,28 @@ foreach ($feed->getElementsByTagname('entry') as $entry) {
     }
 }
 
+$container = $template->getElementById('tagcloud');
+$list = $feed->getElementsByTagName('category');
+
+$tags = array();
+for($i = 0; $i < $list->length; $i++) {
+    $item = $list->item($i);
+    $tags[trim($item->nodeValue)]++;
+}
+
+$max = $tags;
+rsort($max);
+$max = $max[0];
+
+foreach ($tags as $tag => $count) {
+    $span = $template->createElement('span');
+    $span->setAttribute('style', 'font-size:'.round($count/$max*125+75).'%');
+    $span->appendChild($template->createTextNode($tag));
+    $container->appendChild($span);
+    $container->appendChild($template->createTextNode("\n"));
+}
+
+
 $update = $template->getElementById('last_update');
 $update->appendChild($template->createTextNode(date('Y-m-d H:i:s')));
 
