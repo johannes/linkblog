@@ -13,7 +13,6 @@ function JohannesLinks(url, token)
     this.URL   = url;
     this.Token = token;
     this.createOverlay();
-    this.submitCurrent();
 }
 
 JohannesLinks.prototype.URL     = "";
@@ -22,14 +21,6 @@ JohannesLinks.prototype.Overlay = null;
 
 JohannesLinks.prototype.doRequest = function(url) {
      document.getElementById('jl_bg_load_img').setAttribute('src', this.URL + url);
-}
-
-JohannesLinks.prototype.submitURL = function(url) {
-    this.doRequest('addlink.php?url='+escape(url)+'&'+this.Token);
-}
-
-JohannesLinks.prototype.submitCurrent = function() {
-    this.submitURL(window.location.href);
 }
 
 JohannesLinks.prototype.createOverlay = function() {
@@ -53,7 +44,7 @@ JohannesLinks.prototype.createOverlay = function() {
 
 JohannesLinks.prototype.submitTags = function() {
     this.doRequest(
-      'settag.php?url='
+      'addlink.php?url='
      + escape(window.location.href)
      + '&tags='
      + escape(document.jl_tag_frm.tags.value)
