@@ -1,9 +1,12 @@
 <?php
 
-require './helper.php';
+require_once './helper.php';
 
-$template = DOMDocument::loadHTMLFile('template.html');
-$feed = DOMDocument::load('feed.xml');
+$template = new DOMDocument;
+$template->loadHTMLFile('template.html');
+
+$feed = new DOMDocument;
+$feed->load('feed.xml');
 
 $list = $template->getElementById('linklist');
 
@@ -40,7 +43,7 @@ $list = $feed->getElementsByTagName('category');
 $tags = array();
 for($i = 0; $i < $list->length; $i++) {
     $item = $list->item($i);
-    $tags[trim($item->nodeValue)]++;
+    @$tags[trim($item->nodeValue)]++;
 }
 
 $max = $tags;
@@ -59,11 +62,13 @@ foreach ($tags as $tag => $count) {
 $update = $template->getElementById('last_update');
 $update->appendChild($template->createTextNode(date('Y-m-d H:i:s')));
 
-$update->appendChild($template->createComment('Last commit: '.trim(`/home/johannes/bin/git-rev-list HEAD | head -n1`)));
+$update->appendChild($template->createComment('Last commit: '.trim(`git rev-list HEAD | head -n1`)));
 
 if (!defined('EDIT')) {
     $template->save('index.html');
-    header('Location: ./');
+    if (!defined('SILENT')) {
+        header('Location: ./');
+    }    
 } else {
     return $template;
 }
