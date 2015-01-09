@@ -6,18 +6,21 @@ require './vendor/autoload.php';
 
 $tags = array();
 
-if ($argc == 2) {
-    $url = $argv[1];
-} elseif ($argc == 3) {
-    $url = $argv[1];
-    $tags = explode(',', $argv[2]);
-} elseif (PHP_SAPI == 'cli') {
-    die("Fehlerhafter Aufruf\n");
+if (PHP_SAPI == 'cli') {
+    switch ($argc) {
+    case 3:
+        $tags = explode(',', $argv[2]);
+    case 2:
+        $url = $argv[1];
+        break;
+    default:
+        die("Fehlerhafter Aufruf\n");
+    }
 } else {
     if (!(isset($_GET['url']) && $url = stripslashes($_GET['url']))) {
         die("<pre>\nCLI only\n");
     }
-    if (isset($_GET['tags'])) {	    
+    if (!empty($_GET['tags'])) {
         $tags = explode(',', $_GET['tags']);
     }
 }
