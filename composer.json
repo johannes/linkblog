@@ -1,5 +1,6 @@
 {
     "require": {
-        "embed/embed": " 1.*"
+        "embed/embed": " 1.*",
+        "facebook/php-sdk-v4": " 4.0.*"
     }
 }
